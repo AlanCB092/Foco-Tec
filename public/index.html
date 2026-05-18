@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Control IoT - Sistema de Iluminación Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">💡</span>
+                <h1>Foco<span class="gradient">TEC</span></h1>
+            </div>
+            <p class="subtitle">Sistema de Control IoT Inteligente</p>
+        </div>
+
+        <!-- Tarjeta de Control Principal -->
+        <div class="control-card">
+            <div class="bulb-container">
+                <div class="bulb" id="bulb">
+                    <div class="bulb-icon">💡</div>
+                    <div class="bulb-rays"></div>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <div class="status-box">
+                    <span class="status-label">Estado Actual</span>
+                    <div class="status-value" id="estadoDisplay">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span id="estadoTexto">APAGADO</span>
+                    </div>
+                </div>
+                
+                <div class="intensity-control">
+                    <label>Intensidad Lumínica</label>
+                    <input type="range" id="intensidad" min="0" max="100" value="100">
+                    <span id="intensidadValor">100%</span>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-primary" id="btnEncender">
+                        <span>🔛</span> Encender
+                    </button>
+                    <button class="btn-secondary" id="btnApagar">
+                        <span>⭕</span> Apagar
+                    </button>
+                </div>
+                
+                <div class="info-last">
+                    <small>Última acción: <span id="ultimaAccion">---</span></small>
+                    <small>Desde IP: <span id="ultimaIP">---</span></small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas Dashboard -->
+        <div class="metrics-section">
+            <h2>📈 Dashboard de Métricas</h2>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-icon">🔄</div>
+                    <div class="metric-data">
+                        <span class="metric-number" id="totalEventos">0</span>
+                        <span class="metric-title">Eventos Totales</span>
+                    </div>
+                </div>
+                <div class="metric-box success">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-data">
+                        <span class="metric-number" id="totalEncendidos">0</span>
+                        <span class="metric-title">Encendidos</span>
+                    </div>
+                </div>
+                <div class="metric-box danger">
+                    <div class="metric-icon">⭕</div>
+                    <div class="metric-data">
+                        <span class="metric-number" id="totalApagados">0</span>
+                        <span class="metric-title">Apagados</span>
+                    </div>
+                </div>
+                <div class="metric-box info">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-data">
+                        <span class="metric-number" id="porcentajeEncendido">0%</span>
+                        <span class="metric-title">Tasa de Encendido</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros y Reportes -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label>📅 Período:</label>
+                <select id="filtroDias">
+                    <option value="1">Último día</option>
+                    <option value="3">Últimos 3 días</option>
+                    <option value="7" selected>Última semana</option>
+                    <option value="15">Últimos 15 días</option>
+                    <option value="30">Último mes</option>
+                </select>
+            </div>
+            <button class="btn-report" id="btnReporte">
+                📄 Generar Reporte
+            </button>
+            <button class="btn-excel" id="btnExcel">
+                📊 Exportar a Excel
+            </button>
+        </div>
+
+        <!-- Tabla de Historial -->
+        <div class="history-section">
+            <h2>📜 Historial de Eventos</h2>
+            <div class="table-wrapper">
+                <table id="historialTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha y Hora</th>
+                            <th>Acción</th>
+                            <th>Dispositivo</th>
+                            <th>IP</th>
+                            <th>Intensidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historialBody">
+                        <tr>
+                            <td colspan="5" class="loading">Cargando historial...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
