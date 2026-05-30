@@ -14,7 +14,7 @@ process.env.TZ = 'America/Mexico_City';
 console.log('\n=========================================');
 console.log('   SERVIDOR FOCO IoT - CONTROL INTELIGENTE');
 console.log('=========================================\n');
-console.log(`✅ Servidor: http://192.168.0.108:${PORT}`);
+console.log(`✅ Servidor: http://192.168.0.185:${PORT}`);
 console.log(`💡 Hora local: ${new Date().toLocaleString('es-MX')}\n`);
 
 // Endpoint para el ESP32
@@ -50,9 +50,8 @@ app.post('/api/control', async (req, res) => {
     }
 });
 
-// Endpoint para la web - pasa la IP real al ESP32
+// Endpoint para la web
 app.post('/api/web-control', async (req, res) => {
-    // Obtener IP real del cliente
     let clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     if (clientIP && clientIP.includes('::ffff:')) clientIP = clientIP.replace('::ffff:', '');
     if (clientIP === '::1' || clientIP === '127.0.0.1') clientIP = 'localhost';
@@ -62,8 +61,7 @@ app.post('/api/web-control', async (req, res) => {
     
     try {
         const comando = estado === 'ON' ? 'H' : 'L';
-        // Pasar la IP real como parámetro al ESP32
-        await axios.get(`http://192.168.0.114/${comando}?ip=${encodeURIComponent(clientIP)}`);
+        await axios.get(`http://192.168.0.200/${comando}?ip=${encodeURIComponent(clientIP)}`);
         res.json({ success: true, ip: clientIP });
     } catch (error) {
         console.error(`❌ Error: ${error.message}`);
@@ -164,7 +162,7 @@ app.get('/api/test', (req, res) => {
     res.json({ success: true, message: 'Servidor funcionando' });
 });
 
-// Interfaz web
+// Dashboard web
 app.get('/', (req, res) => {
     res.send(`
 <!DOCTYPE html>
@@ -377,8 +375,7 @@ app.get('/', (req, res) => {
                     row.insertCell(0).innerHTML = horaMostrar;
                     row.insertCell(1).innerHTML = reg.estado === 'ON' ? '🔛 Encendido' : '⭕ Apagado';
                     row.insertCell(2).innerHTML = reg.ip;
-                    const badge = reg.dispositivo === 'Control Remoto' ? '<span class="badge-web">🌐 Web</span>' : '<span class="badge-web">🌐 Web</span>';
-                    row.insertCell(3).innerHTML = badge;
+                    row.insertCell(3).innerHTML = '<span class="badge-web">🌐 Web</span>';
                 });
             } catch(e) { console.error(e); }
         }
@@ -399,8 +396,8 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`📍 Dashboard: http://192.168.0.108:${PORT}`);
-    console.log(`🎮 ESP32: http://192.168.0.114`);
+    console.log(`📍 Dashboard: http://192.168.0.185:${PORT}`);
+    console.log(`🎮 ESP32: http://192.168.0.200`);
     console.log(`\n🔥 Sistema listo. Esperando comandos...\n`);
 });
 

@@ -1,0 +1,30 @@
+# Dependencias
+node_modules/
+npm-debug.log*
+
+# Configuración de ngrok
+ngrok.yml
+ngrok*
+
+# Logs
+*.log
+server.log
+
+# Archivos temporales
+*.tmp
+*.swp
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Archivos de configuración sensibles (si los agregas)
+config.h
+.env
+*.key
+*.pem
+
+# Firebase (si tienes archivos de credenciales)
+*.json
+!package.json
